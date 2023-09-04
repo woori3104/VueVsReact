@@ -75,7 +75,7 @@ transition: fade-out
 transition: fade-out
 ---
 
-# ### 기존 Optional API와의 비교 
+# 기존 Optional API와의 비교 
 <br>
 <img src = "https://velog.velcdn.com/images/buddle6091/post/a82ee5b3-8c6d-4a06-bacd-fb49d8b10f5c/image.png"  style="width: 80%; height:80%;">
 
@@ -87,14 +87,14 @@ transition: fade-out
 transition: fade-out
 ---
 
-### 기존 Optional API와의 비교 
+# 기존 Optional API와의 비교 
 <br>
-1. Composition API와 재사용성
+### Composition API와 재사용성
 Composition API는 Vue 3에서 도입된 새로운 API로, 복잡한 컴포넌트 로직을 쉽게 구성하고 재사용할 수 있게 해줍니다.
 
-문제점:
+- 문제점:
 기존 Option API의 mixins는 로직 재사용의 한 방법이었지만, 여러 가지 문제점이 있었습니다. 예를 들면, 충돌 위험, 출처가 불명확한 속성 등이 있습니다.
-해결:
+- 해결:
 Composition API는 reactive와 ref를 사용하여 반응성 있는 데이터를 만들고, setup() 함수 내에서 로직을 구성하여 문제점을 해결합니다.
 커스텀 훅을 쉽게 만들어 로직을 재사용할 수 있습니다.
 
@@ -105,20 +105,87 @@ Composition API는 reactive와 ref를 사용하여 반응성 있는 데이터를
 transition: fade-out
 ---
 
-### 기존 Optional API와의 비교 
+# 기존 Optional API와의 비교 
+
+### Mixin 사용법
+```
+const myMixin = {
+  data() {
+    return {
+      message: "Hello from mixin!"
+    };
+  },
+  created() {
+    console.log(this.message);
+  }
+};
+```
+### Mixin 사용하기
+```
+new Vue({
+  mixins: [myMixin],
+  created() {
+    console.log('Component created!');
+  }
+})
+```
+#### 출력 
+```
+Hello from mixin!
+Component created!
+```
+
 <br>
-2. 본격적인 타입 추론
+<common-slide/>
+
+---
+transition: fade-out
+---
+
+# 기존 Optional API와의 비교 
+
+### Mixin 의 속성충돌
+
+```
+new Vue({
+  mixins: [myMixin],
+  data() {
+    return {
+      message: "Hello from component!"
+    };
+  },
+  created() {
+    console.log(this.message);
+  }
+}).$mount("#app");
+```
+을 실행하면 
+```
+Hello from component!
+Hello from component!
+```
+- 두 개의 created 훅이 모두 실행되지만, message 데이터 속성의 값은 컴포넌트의 것이 mixin의 것보다 우선적으로 사용됩니다. 따라서 "Hello from component!"가 두 번 출력됩니다.
+<br>
+<common-slide/>
+
+---
+transition: fade-out
+---
+
+# 기존 Optional API와의 비교 
+<br>
+ ### 본격적인 타입 추론
 Vue 3는 Typescript와의 호환성을 크게 향상시켰습니다.
 Options API의 경우에도 타입스크립트 특유의 타입 추론을 구현하기 위해 매우 [비효율적인 방법](https://github.com/vuejs/core/blob/44b95276f5c086e1d88fa3c686a5f39eb5bb7821/packages/runtime-core/src/componentPublicInstance.ts#L132-L165)을 사용하고 있다고 공식 문서에서는 설명하고 있습니다.
 
-특징:
-Composition API는 타입 추론을 자동화하기 위한 구조를 가지고 있습니다.
-Vue 3의 내부 코드도 Typescript로 작성되었기 때문에, Typescript와의 통합이 더욱 원활해졌습니다.
-<br>
-3. 더 작은 생산 번들 및 더 적은 오버헤드
-Vue 3는 `<script setup>` 태그를 도입하여 컴포넌트 로직을 더 간결하게 작성할 수 있게 되었습니다.
+  - 특징:
+    Composition API는 타입 추론을 자동화하기 위한 구조를 가지고 있습니다.
+    Vue 3의 내부 코드도 Typescript로 작성되었기 때문에, Typescript와의 통합이 더욱 원활해졌습니다.
 
-특징:
+### 더 작은 생산 번들 및 더 적은 오버헤드
+- Vue 3는 `<script setup>` 태그를 도입하여 컴포넌트 로직을 더 간결하게 작성할 수 있게 되었습니다.
+
+- 특징:
 `<script setup>`을 사용하면, 컴포넌트의 템플릿이 코드와 동일한 범위에서 인라인 함수로 컴파일됩니다.
 이로 인해, 기존 Option API에서 this를 사용하여 데이터에 접근하는 것을 줄일 수 있습니다.
 변수 이름이 안전하게 단축될 수 있으므로, 번들 크기가 줄어들고, 더 나은 성능을 제공합니다.
@@ -254,11 +321,11 @@ transition: fade-out
 import React, { useState } from 'react';
 
 const Counter = () => {
-  const [count, setCount] = useState(0); // State 초기값은 0
+  const [count, setCount] = useState(0); 
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
+       <button onClick={() => setCount(prevCount => prevCount + 1)}>
         Click me
       </button>
     </div>
@@ -275,10 +342,34 @@ export default Counter;
 transition: fade-out
 ---
 
-### State 와 LifeCycle
-- LifeCycle
-    - 라이프사이클은 컴포넌트의 생성부터 소멸까지의 여러 단계를 설명합니다. 각 단계마다 특정 메서드들이 호출됩니다. 이러한 메서드들을 라이프사이클 메서드라고 합니다.
-    - 함수 컴포넌트에서의 라이프사이클: 함수 컴포넌트에서는 useEffect 훅을 사용하여 라이프사이클과 유사한 기능을 구현할 수 있습니다. useEffect는 마운팅, 업데이트, 언마운팅 시에 실행될 수 있는 코드를 정의할 수 있게 합니다.
+# LifeCycle
+- 라이프사이클은 컴포넌트가 생성되어 소멸될 때까지의 여러 단계를 설명합니다. 각 단계마다 특정 메서드가 호출되고 이러한 메서드를 라이프사이클 메서드라고 합니다.
+- 마운트(Mounting):
+  - constructor(): 컴포넌트가 처음 생성될 때 호출.
+  - render(): 렌더링.
+  - componentDidMount(): 컴포넌트가 DOM에 추가된 후에 호출. 데이터를 가져오거나 초기화하는 데 적합.
+- 업데이트(Updating):
+  - render(): 렌더링.
+  - componentDidUpdate(): 컴포넌트가 업데이트 된 후에 호출. 상태나 속성의 변화에 대응하여 처리하는 데 사용.
+- 언마운트(Unmounting):
+  - componentWillUnmount(): 컴포넌트가 DOM에서 제거되기 전에 호출. 리소스를 해제하거나 정리하는 등의 작업에 사용.
+
+<br>
+<common-slide/>
+
+---
+transition: fade-out
+---
+
+# LifeCycle
+- React 컴포넌트의 라이프사이클 접근 방식이 바뀌었습니다. 클래스 컴포넌트의 고전적인 라이프사이클 메서드를 대체하기 위해, Hooks가 도입되었습니다. Hooks를 사용하면 함수 컴포넌트에서도 상태 관리나 라이프사이클 처리를 할 수 있게 되었습니다.
+- useState: 상태를 관리하기 위한 훅입니다. 클래스 컴포넌트의 this.state와 같이 상태를 관리할 수 있습니다.
+- useEffect: 마운트, 업데이트, 언마운트 시 특정 처리를 위한 훅입니다. 클래스 컴포넌트의 componentDidMount, componentDidUpdate, componentWillUnmount에 대응됩니다.
+- useContext: 컨텍스트를 사용하기 위한 훅으로, 컨텍스트 내의 값에 접근할 수 있습니다.
+- useReducer: useState와 유사하게 상태를 관리하기 위한 훅이지만, 복잡한 상태 로직이나 액션을 관리하기 위해 사용됩니다.
+- useMemo: 계산 결과를 메모이제이션하기 위한 훅으로, 컴포넌트가 다시 렌더링되도 계산을 최적화합니다.
+- useCallback: 콜백 함수를 메모이제이션하기 위한 훅으로, 컴포넌트의 재렌더링 시 불필요한 재생성을 방지합니다.
+- useRef: 참조를 관리하기 위한 훅으로, DOM 요소에 접근하거나 변수를 유지하는 데 사용됩니다.
 
 <br>
 <common-slide/>
@@ -288,7 +379,7 @@ transition: fade-out
 ---
 
 
-### React vs Vue
+# React vs Vue
 
 - Reactivity System:
   - Vue: 선언적 데이터 바인딩을 사용합니다. data 객체의 속성이 변경되면 자동으로 뷰가 업데이트됩니다.
@@ -304,7 +395,7 @@ transition: fade-out
 transition: fade-out
 ---
 
-### React vs Vue
+# React vs Vue
 
 - 스타일링:
   - Vue: Single File Components에서 `<style>` 태그 내에 CSS를 포함시킬 수 있습니다. 스코프 된 CSS나 CSS 모듈도 지원됩니다.
@@ -313,18 +404,19 @@ transition: fade-out
 - API & 디자인 패러다임:
   - Vue: Options API와 Vue 3에서 도입된 Composition API를 제공합니다.
   - React: 함수형 컴포넌트와 훅을 사용합니다. 클래스 컴포넌트도 지원되지만, 최근에는 함수형 컴포넌트가 권장됩니다.  
+
 <br>
 <common-slide/>
+---
+transition: fade-out
+---
 
-### React vs Vue
+# React vs Vue
 
 - 타입스크립트 지원:
   - Vue: Vue 3에서 타입스크립트 지원이 향상되었습니다.
   - React: 타입스크립트와의 호환성이 뛰어나며, 많은 커뮤니티 지원이 있습니다.
 
-- 생태계 및 커뮤니티:
-  - Vue: 강력한 공식 문서와 도구를 제공하며, 중국 및 아시아 지역에서 매우 인기가 있습니다.
-  - React: Facebook이 주도하는 큰 커뮤니티와 함께 광범위한 생태계를 가지고 있습니다.
 <br>
 
 <common-slide/>
@@ -333,16 +425,12 @@ transition: fade-out
 transition: fade-out
 ---
 
-
 ### React vs Vue
 
-- 리액트훅과 composite API
+- 리액트 vs Composition API vs options API
 
-<a href="https://ibb.co/c8zffMg"><img src="https://i.ibb.co/X5m00N2/vueReacr.png" alt="vueReacr"></a>
-
+<a href="https://ibb.co/bz92Qw5"><img src="https://i.ibb.co/jgXWb0k/1.png" alt="1" ></a>
 <br>
-<br>
-
 <common-slide/>
 
 ---
