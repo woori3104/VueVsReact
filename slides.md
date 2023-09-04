@@ -56,12 +56,27 @@ Here is another comment.
 
 ### 지원 종료의 의미 
 - 업그레이드의 필요성: Vue 2.0을 사용하는 프로젝트를 유지 및 운영하는 개발자나 팀은 점차 Vue 3.0으로 마이그레이션을 고려해야 합니다.
-- 새로운 기능: Vue 3.0은 **Composition API**, 더 나은 성능, 트리 쉐이킹 지원 등 많은 새로운 기능과 개선 사항을 제공합니다. 이러한 새로운 기능은 Vue 2.0에서는 사용할 수 없습니다.
-
+- 새로운 기능: Vue 3.0은 **Composition API**, 더 나은 성능, 트리 쉐이킹 지원 등 많은 새로운 기능과 개선 사항을 제공합니다.
+- Vue3.0의 가장 중요한 기능 일부를 최신 마이너 버전인 2.7에서 사용할 수 있게 백포트 했습니다. 하지만 모든 기능을 지원하지 않고 앞으로 업데이트 예정도 없습니다.
+https://v2.vuejs.org/v2/guide/migration-vue-2-7
 <common-slide/>
 ---
 transition: fade-out
 ---
+
+# Vue 3.0으로의 마이그레이션 이점
+Vue 3.0은 Vue 2.0보다 많은 특징과 개선 사항을 제공하므로, 이를 활용하여 프로젝트의 품질과 성능을 향상시킬 수 있습니다.
+
+- Composition API: Vue 3.0의 가장 큰 변화 중 하나는 Composition API를 도입한 것입니다. 이를 통해 개발자들은 코드의 재사용성과 가독성을 더욱 향상시킬 수 있습니다.
+
+- 성능 향상: Vue 3.0은 더 나은 성능을 제공합니다. 이는 더 빠른 렌더링 시간과 효율적인 메모리 사용 덕분입니다.
+
+- 트리 쉐이킹 지원: Vue 3.0은 트리 쉐이킹을 지원하여 불필요한 코드를 제거하는 것을 도와줍니다. 이는 최종 번들의 크기를 줄여주어 웹사이트의 로딩 속도를 개선할 수 있습니다.
+<common-slide/>
+---
+transition: fade-out
+---
+
 
 # Vue2.0에서 3.0으로의 전환 
 
@@ -233,7 +248,7 @@ transition: fade-out
 transition: fade-out
 ---
 
-# Reat 기초 개념 
+# React 기초 개념 
 
 ### jsx
 JSX는 JavaScript XML의 줄임말로, React요소를 생성하는 JavaScript의 구문 확장입니다. JavaScript내에서 HTML과 같은 마크업 문법을 사용할 수 있게 해주며, UI 구조와 관련된 로직을 하나의 공간에서 처리할 수 있게 도와줍니다.
@@ -258,7 +273,7 @@ const element = <h1>Hello, world!</h1>;
 transition: fade-out
 ---
 
-# Reat 기초 개념 
+# React 기초 개념 
 
 ### 컴포넌트와 Props
 - 컴포넌트 
@@ -282,7 +297,7 @@ const Welcome = (props) => {
 transition: fade-out
 ---
 
-# Reat 기초 개념 
+# React 기초 개념 
 
 ### 컴포넌트와 Props
 - props 
